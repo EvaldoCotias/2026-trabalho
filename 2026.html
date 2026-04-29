@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz - Abelhas Solitárias</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #f7c948, #ffea9e);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container principal */
+.container {
+    width: 90%;
+    max-width: 600px;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+/* Tela inicial */
+#start-screen h1 {
+    font-size: 32px;
+    color: #333;
+}
+
+#start-screen p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Botões */
+button {
+    background: #ffb703;
+    border: none;
+    padding: 12px 20px;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #fb8500;
+    color: white;
+}
+
+/* Perguntas */
+.question {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.option {
+    display: block;
+    margin: 10px 0;
+    background: #eee;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background: #ddd;
+}
+
+/* Resultado */
+#result {
+    font-size: 22px;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Tela inicial -->
+    <div id="start-screen">
+        <h1>ABELHAS SOLITÁRIAS</h1>
+        <p>3º ANO B</p>
+        <p>Bem-vindo ao quiz educativo sobre abelhas solitárias!</p>
+        <button onclick="startQuiz()">Começar Quiz</button>
+    </div>
+
+    <!-- Quiz -->
+    <div id="quiz" style="display:none;">
+        <div class="question" id="question"></div>
+        <div id="options"></div>
+    </div>
+
+    <!-- Resultado -->
+    <div id="end-screen" style="display:none;">
+        <p id="result"></p>
+        <button onclick="restartQuiz()">Jogar Novamente</button>
+    </div>
+
+</div>
+
+<script>
+const questions = [
+    {
+        question: "O que são abelhas solitárias?",
+        options: [
+            "Vivem em grandes colmeias",
+            "Vivem sozinhas e não formam colônias",
+            "São abelhas rainhas",
+            "São insetos noturnos"
+        ],
+        answer: 1
+    },
+    {
+        question: "Qual a principal função das abelhas solitárias?",
+        options: [
+            "Produzir mel em grande quantidade",
+            "Polinizar plantas",
+            "Construir colmeias",
+            "Atacar predadores"
+        ],
+        answer: 1
+    },
+    {
+        question: "Onde as abelhas solitárias costumam fazer seus ninhos?",
+        options: [
+            "Dentro de casas",
+            "Em buracos no solo ou madeira",
+            "Na água",
+            "No céu"
+        ],
+        answer: 1
+    },
+    {
+        question: "As abelhas solitárias são agressivas?",
+        options: [
+            "Sim, muito agressivas",
+            "Não, raramente picam",
+            "Só à noite",
+            "Sempre atacam humanos"
+        ],
+        answer: 1
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function startQuiz() {
+    document.getElementById("start-screen").style.display = "none";
+    document.getElementById("quiz").style.display = "block";
+    showQuestion();
+}
+
+function showQuestion() {
+    let q = questions[currentQuestion];
+    document.getElementById("question").innerText = q.question;
+
+    let optionsHTML = "";
+    q.options.forEach((opt, index) => {
+        optionsHTML += `<div class="option" onclick="checkAnswer(${index})">${opt}</div>`;
+    });
+
+    document.getElementById("options").innerHTML = optionsHTML;
+}
+
+function checkAnswer(selected) {
+    if (selected === questions[currentQuestion].answer) {
+        score++;
+    }
+
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
+        showQuestion();
+    } else {
+        endQuiz();
+    }
+}
+
+function endQuiz() {
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById("end-screen").style.display = "block";
+
+    document.getElementById("result").innerText =
+        `Você acertou ${score} de ${questions.length} perguntas!`;
+}
+
+function restartQuiz() {
+    currentQuestion = 0;
+    score = 0;
+
+    document.getElementById("end-screen").style.display = "none";
+    document.getElementById("start-screen").style.display = "block";
+}
+</script>
+
+</body>
+</html>
